@@ -95,6 +95,8 @@ router.post("/", async (req, res) => {
                 name,
                 nickname,
                 intention,
+                email,
+                phone,
                 jokes,
                 important,
                 message,
