@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Relationship Application</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="background-shape shape-one"></div>
+    <div class="background-shape shape-two"></div>
+
+    <main class="container">
+
+        <!-- INTRODUCTION -->
+        <section class="screen active" id="welcomeScreen">
+
+            <div class="card welcome-card">
+
+                <div class="heart-icon">♥</div>
+
+                <p class="small-label">RELATIONSHIP APPLICATION PORTAL</p>
+
+                <h1>
+                    Some things<br>
+                    are worth applying for.
+                </h1>
+
+                <p class="intro-text">
+                    This is a short relationship application designed to
+                    determine whether you and I might actually be compatible.
+                </p>
+
+                <div class="notice">
+                    <span>✦</span>
+                    <p>
+                        Please answer honestly. Your answers will be
+                        carefully reviewed by our highly questionable
+                        relationship analysis system.
+                    </p>
+                </div>
+
+                <button class="primary-btn" id="startBtn">
+                    Start Application
+                    <span>→</span>
+                </button>
+
+                <p class="privacy-note">
+                    Takes approximately 2 minutes
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- APPLICATION FORM -->
+        <section class="screen" id="formScreen">
+
+            <div class="card form-card">
+
+                <div class="form-header">
+
+                    <div>
+                        <p class="small-label">APPLICATION</p>
+                        <h2>Let's get to know you.</h2>
+                    </div>
+
+                    <div class="step-counter">
+                        <span id="currentStep">1</span>/5
+                    </div>
+
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+
+                <form id="relationshipForm">
+
+                    <!-- STEP 1 -->
+                    <div class="form-step active" data-step="1">
+
+                        <p class="question-number">01</p>
+
+                        <h3>
+                            First things first...
+                        </h3>
+
+                        <p class="question-description">
+                            Let's start with the basics.
+                        </p>
+
+                        <label for="name">
+                            What should I call you?
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Your name"
+                            required
+                        >
+
+                        <label for="nickname">
+                            And what do people usually call you?
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nickname"
+                            name="nickname"
+                            placeholder="Nickname (optional)"
+                        >
+
+                        <button type="button" class="primary-btn next-btn">
+                            Continue →
+                        </button>
+
+                    </div>
+
+
+                    <!-- STEP 2 -->
+                    <div class="form-step" data-step="2">
+
+                        <p class="question-number">02</p>
+
+                        <h3>
+                            What are you looking for?
+                        </h3>
+
+                        <p class="question-description">
+                            Be honest. This is important.
+                        </p>
+
+                        <div class="option-group">
+
+                            <label class="option">
+                                <input
+                                    type="radio"
+                                    name="intention"
+                                    value="Something serious"
+                                    required
+                                >
+                                <span>Something serious</span>
+                            </label>
+
+                            <label class="option">
+                                <input
+                                    type="radio"
+                                    name="intention"
+                                    value="Let's see where it goes"
+                                >
+                                <span>Let's see where it goes</span>
+                            </label>
+
+                            <label class="option">
+                                <input
+                                    type="radio"
+                                    name="intention"
+                                    value="A best friend first"
+                                >
+                                <span>A best friend first</span>
+                            </label>
+
+                            <label class="option">
+                                <input
+                                    type="radio"
+                                    name="intention"
+                                    value="I don't know yet"
+                                >
+                                <span>I don't know yet</span>
+                            </label>
+
+                        </div>
+
+                        <div class="button-row">
+                            <button type="button" class="secondary-btn prev-btn">
+                                ← Back
+                            </button>
+
+                            <button type="button" class="primary-btn next-btn">
+                                Continue →
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 3 -->
+                    <div class="form-step" data-step="3">
+
+                        <p class="question-number">03</p>
+
+                        <h3>
+                            Important question.
+                        </h3>
+
+                        <p class="question-description">
+                            How would you handle my terrible jokes?
+                        </p>
+
+                        <div class="option-group">
+
+                            <label class="option">
+                                <input
+                                    type="radio"
+                                    name="jokes"
+                                    value="Laugh anyway"
+                                    required
+                                >
+                                <span>Laugh anyway</span>
+                            </label>
+
+                            <label class="option">
+                                <input
+                                    type="radio"
+                                    name="jokes"
+                                    value="Pretend they are funny"
+                                >
+                                <span>Pretend they are funny</span>
+                            </label>
+
+                            <label class="option">
+                                <input
+                                    type="radio"
+                                    name="jokes"
+                                    value="Make worse jokes"
+                                >
+                                <span>Make even worse jokes</span>
+                            </label>
+
+                            <label class="option">
+                                <input
+                                    type="radio"
+                                    name="jokes"
+                                    value="Leave immediately"
+                                >
+                                <span>Leave immediately</span>
+                            </label>
+
+                        </div>
+
+                        <div class="button-row">
+
+                            <button type="button" class="secondary-btn prev-btn">
+                                ← Back
+                            </button>
+
+                            <button type="button" class="primary-btn next-btn">
+                                Continue →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 4 -->
+                    <div class="form-step" data-step="4">
+
+                        <p class="question-number">04</p>
+
+                        <h3>
+                            Compatibility check.
+                        </h3>
+
+                        <p class="question-description">
+                            What matters most in a relationship?
+                        </p>
+
+                        <div class="option-group">
+
+                            <label class="option">
+                                <input
+                                    type="radio"
+                                    name="important"
+                                    value="Trust"
+                                    required
+                                >
+                                <span>Trust</span>
+                            </label>
+
+                            <label class="option">
+                                <input
+                                    type="radio"
+                                    name="important"
+                                    value="Communication"
+                                >
+                                <span>Communication</span>
+                            </label>
+
+                            <label class="option">
+                                <input
+                                    type="radio"
+                                    name="important"
+                                    value="Loyalty"
+                                >
+                                <span>Loyalty</span>
+                            </label>
+
+                            <label class="option">
+                                <input
+                                    type="radio"
+                                    name="important"
+                                    value="Everything above"
+                                >
+                                <span>Everything above</span>
+                            </label>
+
+                        </div>
+
+                        <div class="button-row">
+
+                            <button type="button" class="secondary-btn prev-btn">
+                                ← Back
+                            </button>
+
+                            <button type="button" class="primary-btn next-btn">
+                                Continue →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 5 -->
+                    <div class="form-step" data-step="5">
+
+                        <p class="question-number">05</p>
+
+                        <h3>
+                            One last thing.
+                        </h3>
+
+                        <p class="question-description">
+                            Tell me something I should know about you.
+                        </p>
+
+                        <textarea
+                            id="message"
+                            name="message"
+                            rows="5"
+                            placeholder="Write something..."
+                            required
+                        ></textarea>
+
+                        <div class="button-row">
+
+                            <button type="button" class="secondary-btn prev-btn">
+                                ← Back
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="primary-btn"
+                            >
+                                Submit Application ♥
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- ANALYZING SCREEN -->
+        <section class="screen" id="analyzingScreen">
+
+            <div class="card analyzing-card">
+
+                <div class="loader"></div>
+
+                <p class="small-label">
+                    AI COMPATIBILITY ANALYSIS
+                </p>
+
+                <h2 id="analysisText">
+                    Reviewing your application...
+                </h2>
+
+                <div class="analysis-lines">
+
+                    <p>✓ Personality compatibility</p>
+                    <p>✓ Communication potential</p>
+                    <p>✓ Relationship stability</p>
+                    <p>✓ Ability to tolerate bad jokes</p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESULT SCREEN -->
+        <section class="screen" id="resultScreen">
+
+            <div class="card result-card">
+
+                <p class="small-label">
+                    APPLICATION RESULT
+                </p>
+
+                <h2>
+                    Analysis complete.
+                </h2>
+
+                <p class="result-intro">
+                    Based on the information provided,
+                    our highly sophisticated relationship
+                    algorithm has reached a conclusion.
+                </p>
+
+                <div class="score-circle">
+
+                    <div class="score-number">
+                        <span id="score">87</span>%
+                    </div>
+
+                    <div class="score-label">
+                        COMPATIBILITY
+                    </div>
+
+                </div>
+
+                <div class="result-message" id="resultMessage">
+                    This looks surprisingly promising.
+                </div>
+
+                <div class="application-status">
+
+                    <span class="status-dot"></span>
+
+                    <span>
+                        Application status:
+                        <strong>UNDER SERIOUS CONSIDERATION</strong>
+                    </span>
+
+                </div>
+
+                <button
+                    class="primary-btn"
+                    id="finishBtn"
+                >
+                    Continue
+                    <span>→</span>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- FINAL SCREEN -->
+        <section class="screen" id="finalScreen">
+
+            <div class="card final-card">
+
+                <div class="heart-icon">♥</div>
+
+                <p class="small-label">
+                    FINAL NOTICE
+                </p>
+
+                <h1>
+                    Your application<br>
+                    has been received.
+                </h1>
+
+                <p class="final-text">
+
+                    Thank you for taking the time to complete
+                    the application.
+
+                    <br><br>
+
+                    The results have been forwarded to the
+                    appropriate relationship department.
+
+                </p>
+
+                <div class="final-note">
+
+                    <strong>Important:</strong>
+
+                    You may now wait patiently for a response.
+
+                </div>
+
+                <p class="tiny-text">
+                    Relationship Application Portal © 2026
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
