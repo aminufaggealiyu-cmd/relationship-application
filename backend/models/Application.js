@@ -14,6 +14,19 @@ const applicationSchema = new mongoose.Schema(
             default: ""
         },
 
+        email: {
+            type: String,
+            trim: true,
+            lowercase: true,
+            default: ""
+        },
+
+        phone: {
+            type: String,
+            trim: true,
+            default: ""
+        },
+
         intention: {
             type: String,
             required: true
