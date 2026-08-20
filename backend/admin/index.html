@@ -8,152 +8,126 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Relationship Applications</title>
+    <title>Relationship Application — Admin</title>
 
     <style>
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         body {
+            margin: 0;
+            min-height: 100vh;
             font-family: Arial, sans-serif;
-            background: #f6f5f8;
-            color: #18181b;
-            padding: 20px;
+            background: #f5f5f5;
+            color: #222;
         }
 
         .container {
-            max-width: 900px;
-            margin: auto;
+            width: min(1100px, 92%);
+            margin: 40px auto;
         }
 
-        .header {
+        .card {
             background: white;
-            border-radius: 18px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 30px rgba(0,0,0,.06);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
         }
 
         h1 {
-            margin-bottom: 8px;
+            margin-top: 0;
         }
 
-        .subtitle {
-            color: #71717a;
+        .login {
+            max-width: 450px;
+            margin: 80px auto;
         }
 
-        .login-box,
-        .applications-box {
-            background: white;
-            border-radius: 18px;
-            padding: 25px;
-            box-shadow: 0 8px 30px rgba(0,0,0,.06);
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
         }
 
         input {
             width: 100%;
-            padding: 14px;
-            margin: 8px 0 15px;
+            padding: 13px;
             border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 15px;
+            border-radius: 8px;
+            font-size: 16px;
         }
 
         button {
             border: none;
-            border-radius: 10px;
-            padding: 14px 18px;
-            background: #8b5cf6;
-            color: white;
-            font-weight: bold;
+            border-radius: 8px;
+            padding: 13px 20px;
+            font-size: 16px;
             cursor: pointer;
+            background: #111;
+            color: white;
         }
 
         button:hover {
-            background: #6d28d9;
-        }
-
-        .logout {
-            background: #ef4444;
-            float: right;
-        }
-
-        .logout:hover {
-            background: #dc2626;
-        }
-
-        .application {
-            border: 1px solid #e4e4e7;
-            border-radius: 14px;
-            padding: 20px;
-            margin-top: 15px;
-        }
-
-        .application h3 {
-            margin-bottom: 5px;
-        }
-
-        .date {
-            color: #a1a1aa;
-            font-size: 12px;
-            margin-bottom: 18px;
-        }
-
-        .field {
-            margin-bottom: 14px;
-        }
-
-        .field strong {
-            display: block;
-            font-size: 12px;
-            color: #71717a;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-
-        .score {
-            display: inline-block;
-            padding: 7px 12px;
-            background: #f3e8ff;
-            color: #7c3aed;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .hidden {
-            display: none;
+            opacity: 0.9;
         }
 
         .error {
-            color: #dc2626;
-            margin-top: 10px;
-            font-size: 14px;
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #ffe8e8;
+            color: #b00020;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 15px;
+        }
+
+        #dashboard {
+            display: none;
+        }
+
+        .application {
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 18px;
+        }
+
+        .application h3 {
+            margin-top: 0;
+        }
+
+        .logout {
+            float: right;
+            background: #b00020;
         }
 
         .empty {
+            padding: 30px;
             text-align: center;
-            padding: 40px;
-            color: #71717a;
+            color: #777;
         }
 
         @media (max-width: 600px) {
-            body {
-                padding: 12px;
+            .container {
+                width: 94%;
+                margin: 20px auto;
             }
 
-            .header,
-            .login-box,
-            .applications-box {
-                padding: 18px;
+            .card {
+                padding: 20px;
             }
 
-            .logout {
-                float: none;
-                margin-top: 15px;
-                width: 100%;
+            .login {
+                margin: 40px auto;
             }
         }
     </style>
@@ -163,151 +137,232 @@
 
 <div class="container">
 
-    <div class="header">
+    <!-- ==========================================
+         LOGIN
+    =========================================== -->
 
-        <button
-            class="logout hidden"
-            id="logoutBtn"
-        >
-            Logout
-        </button>
+    <section
+        id="loginSection"
+        class="card login"
+    >
 
-        <h1>Relationship Applications</h1>
+        <h1>Admin Login</h1>
 
-        <p class="subtitle">
-            Private application dashboard
+        <p>
+            Relationship Application Dashboard
         </p>
 
-    </div>
+        <form id="loginForm">
+
+            <div class="field">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    required
+                    autocomplete="username"
+                >
+
+            </div>
 
 
-    <!-- LOGIN -->
+            <div class="field">
 
-    <div
-        class="login-box"
-        id="loginBox"
-    >
+                <label for="password">
+                    Password
+                </label>
 
-        <h2>Admin Login</h2>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    autocomplete="current-password"
+                >
 
-        <br>
+            </div>
 
-        <label>Username</label>
 
-        <input
-            type="text"
-            id="username"
-            placeholder="Admin username"
+            <button
+                type="submit"
+                id="loginButton"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <div
+            id="loading"
+            class="loading"
         >
+            Logging in...
+        </div>
 
-        <label>Password</label>
 
-        <input
-            type="password"
-            id="password"
-            placeholder="Admin password"
-        >
-
-        <button id="loginBtn">
-            Login
-        </button>
-
-        <p
-            class="error"
+        <div
             id="loginError"
-        ></p>
+            class="error"
+        ></div>
 
-    </div>
+    </section>
 
 
-    <!-- APPLICATIONS -->
+    <!-- ==========================================
+         DASHBOARD
+    =========================================== -->
 
-    <div
-        class="applications-box hidden"
-        id="applicationsBox"
+    <section
+        id="dashboard"
     >
 
-        <h2>
-            Applications
-            (<span id="applicationCount">0</span>)
-        </h2>
+        <div class="card">
 
-        <div id="applicationsList"></div>
+            <button
+                id="logoutButton"
+                class="logout"
+            >
+                Logout
+            </button>
 
-    </div>
+            <h1>
+                Relationship Applications
+            </h1>
+
+            <p>
+                Submitted applications
+            </p>
+
+            <div id="applications">
+                Loading applications...
+            </div>
+
+        </div>
+
+    </section>
 
 </div>
 
 
 <script>
 
-    /*
-     * Change this after deploying the backend.
-     *
-     * Example:
-     *
-     * https://relationship-application-api.onrender.com
-     */
+// ============================================================
+// CONFIGURATION
+// ============================================================
 
-    const API_URL="https://relationship-application-api.onrender.com";
+const API_URL =
+    "https://relationship-application-api.onrender.com";
 
 
-    const loginBox =
-        document.getElementById("loginBox");
+// ============================================================
+// ELEMENTS
+// ============================================================
 
-    const applicationsBox =
-        document.getElementById("applicationsBox");
+const loginSection =
+    document.getElementById("loginSection");
 
-    const loginBtn =
-        document.getElementById("loginBtn");
+const dashboard =
+    document.getElementById("dashboard");
 
-    const logoutBtn =
-        document.getElementById("logoutBtn");
+const loginForm =
+    document.getElementById("loginForm");
 
-    const loginError =
-        document.getElementById("loginError");
+const usernameInput =
+    document.getElementById("username");
 
-    const applicationsList =
-        document.getElementById("applicationsList");
+const passwordInput =
+    document.getElementById("password");
 
-    const applicationCount =
-        document.getElementById("applicationCount");
+const loginButton =
+    document.getElementById("loginButton");
+
+const loading =
+    document.getElementById("loading");
+
+const loginError =
+    document.getElementById("loginError");
+
+const applicationsContainer =
+    document.getElementById("applications");
+
+const logoutButton =
+    document.getElementById("logoutButton");
 
 
-    // ==========================================
-    // LOGIN
-    // ==========================================
+// ============================================================
+// SHOW ERROR
+// ============================================================
 
-    loginBtn.addEventListener("click", async () => {
+function showError(message) {
 
-        const username =
-            document.getElementById("username").value;
+    loginError.textContent = message;
 
-        const password =
-            document.getElementById("password").value;
+    loginError.style.display = "block";
+
+}
 
 
-        loginError.textContent = "";
+// ============================================================
+// HIDE ERROR
+// ============================================================
 
+function hideError() {
+
+    loginError.textContent = "";
+
+    loginError.style.display = "none";
+
+}
+
+
+// ============================================================
+// LOGIN
+// ============================================================
+
+loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        hideError();
+
+        loading.style.display = "block";
+
+        loginButton.disabled = true;
 
         try {
 
-            const response = await fetch(
-                `${API_URL}/api/admin/login`,
-                {
-                    method: "POST",
+            const username =
+                usernameInput.value.trim();
 
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
+            const password =
+                passwordInput.value;
 
-                    body: JSON.stringify({
-                        username,
-                        password
-                    })
-                }
-            );
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/admin/login`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            username: username,
+                            password: password
+                        })
+                    }
+                );
 
 
             const data =
@@ -318,7 +373,18 @@
 
                 throw new Error(
                     data.message ||
-                    "Login failed."
+                    "Invalid username or password."
+                );
+
+            }
+
+
+            if (
+                !data.token
+            ) {
+
+                throw new Error(
+                    "The server did not return an admin token."
                 );
 
             }
@@ -335,295 +401,313 @@
 
         } catch (error) {
 
-            loginError.textContent =
-                error.message;
+            console.error(
+                "Login error:",
+                error
+            );
+
+            showError(
+                error.message ||
+                "Unable to connect to the server."
+            );
+
+        } finally {
+
+            loading.style.display = "none";
+
+            loginButton.disabled = false;
 
         }
 
-    });
+    }
+);
 
 
-    // ==========================================
-    // SHOW DASHBOARD
-    // ==========================================
+// ============================================================
+// SHOW DASHBOARD
+// ============================================================
 
-    function showDashboard() {
+function showDashboard() {
 
-        loginBox.classList.add("hidden");
+    loginSection.style.display =
+        "none";
 
-        applicationsBox.classList.remove(
-            "hidden"
+    dashboard.style.display =
+        "block";
+
+    loadApplications();
+
+}
+
+
+// ============================================================
+// LOAD APPLICATIONS
+// ============================================================
+
+async function loadApplications() {
+
+    applicationsContainer.textContent =
+        "Loading applications...";
+
+
+    const token =
+        localStorage.getItem(
+            "adminToken"
         );
 
-        logoutBtn.classList.remove(
-            "hidden"
-        );
 
-        loadApplications();
+    if (!token) {
+
+        showLogin();
+
+        return;
 
     }
 
 
-    // ==========================================
-    // LOAD APPLICATIONS
-    // ==========================================
+    try {
 
-    async function loadApplications() {
-
-        const token =
-            localStorage.getItem(
-                "adminToken"
-            );
-
-
-        try {
-
-            const response = await fetch(
+        const response =
+            await fetch(
                 `${API_URL}/api/applications`,
                 {
+                    method: "GET",
+
                     headers: {
-                        Authorization:
+                        "Authorization":
                             `Bearer ${token}`
                     }
                 }
             );
 
 
-            if (!response.ok) {
+        const data =
+            await response.json();
 
-                if (response.status === 401) {
 
-                    logout();
+        if (!response.ok) {
 
-                    return;
+            if (response.status === 401) {
 
-                }
-
-                throw new Error(
-                    "Could not load applications."
+                localStorage.removeItem(
+                    "adminToken"
                 );
+
+                showLogin();
+
+                showError(
+                    "Your admin session has expired."
+                );
+
+                return;
 
             }
 
-
-            const data =
-                await response.json();
-
-
-            applicationCount.textContent =
-                data.count;
-
-
-            renderApplications(
-                data.applications
+            throw new Error(
+                data.message ||
+                "Could not load applications."
             );
 
-
-        } catch (error) {
-
-            applicationsList.innerHTML = `
-                <p class="error">
-                    ${error.message}
-                </p>
-            `;
-
         }
+
+
+        displayApplications(
+            data.applications || []
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Applications error:",
+            error
+        );
+
+        applicationsContainer.innerHTML =
+            `<div class="error" style="display:block;">
+                ${escapeHtml(error.message)}
+            </div>`;
 
     }
 
+}
 
-    // ==========================================
-    // DISPLAY APPLICATIONS
-    // ==========================================
 
-    function renderApplications(
-        applications
+// ============================================================
+// DISPLAY APPLICATIONS
+// ============================================================
+
+function displayApplications(
+    applications
+) {
+
+    if (
+        !applications.length
     ) {
 
-        if (!applications.length) {
+        applicationsContainer.innerHTML =
+            `<div class="empty">
+                No applications have been submitted yet.
+            </div>`;
 
-            applicationsList.innerHTML = `
-                <div class="empty">
-                    No applications yet.
-                </div>
-            `;
-
-            return;
-
-        }
-
-
-        applicationsList.innerHTML =
-            applications.map(application => {
-
-                const date =
-                    new Date(
-                        application.createdAt
-                    ).toLocaleString();
-
-
-                return `
-
-                    <div class="application">
-
-                        <h3>
-                            ${escapeHTML(
-                                application.name
-                            )}
-                        </h3>
-
-                        <p class="date">
-                            ${date}
-                        </p>
-
-                        <div class="field">
-
-                            <strong>
-                                Nickname
-                            </strong>
-
-                            ${escapeHTML(
-                                application.nickname ||
-                                "Not provided"
-                            )}
-
-                        </div>
-
-
-                        <div class="field">
-
-                            <strong>
-                                Looking for
-                            </strong>
-
-                            ${escapeHTML(
-                                application.intention
-                            )}
-
-                        </div>
-
-
-                        <div class="field">
-
-                            <strong>
-                                Bad joke response
-                            </strong>
-
-                            ${escapeHTML(
-                                application.jokes
-                            )}
-
-                        </div>
-
-
-                        <div class="field">
-
-                            <strong>
-                                Relationship priority
-                            </strong>
-
-                            ${escapeHTML(
-                                application.important
-                            )}
-
-                        </div>
-
-
-                        <div class="field">
-
-                            <strong>
-                                Message
-                            </strong>
-
-                            ${escapeHTML(
-                                application.message
-                            )}
-
-                        </div>
-
-
-                        <div class="field">
-
-                            <strong>
-                                Compatibility
-                            </strong>
-
-                            <span class="score">
-                                ${application.compatibilityScore}%
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            }).join("");
+        return;
 
     }
 
 
-    // ==========================================
-    // LOGOUT
-    // ==========================================
+    applicationsContainer.innerHTML =
+        "";
 
-    logoutBtn.addEventListener(
-        "click",
-        logout
+
+    applications.forEach(
+        application => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "application";
+
+
+            item.innerHTML = `
+
+                <h3>
+                    ${escapeHtml(
+                        application.name || "Unknown"
+                    )}
+                </h3>
+
+                <p>
+                    <strong>Nickname:</strong>
+                    ${escapeHtml(
+                        application.nickname || "—"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Intention:</strong>
+                    ${escapeHtml(
+                        application.intention || "—"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Jokes:</strong>
+                    ${escapeHtml(
+                        application.jokes || "—"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Important:</strong>
+                    ${escapeHtml(
+                        application.important || "—"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Message:</strong>
+                    ${escapeHtml(
+                        application.message || "—"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Compatibility:</strong>
+                    ${escapeHtml(
+                        String(
+                            application.compatibilityScore ?? "—"
+                        )
+                    )}%
+                </p>
+
+            `;
+
+
+            applicationsContainer.appendChild(
+                item
+            );
+
+        }
     );
 
+}
 
-    function logout() {
+
+// ============================================================
+// ESCAPE HTML
+// ============================================================
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+// ============================================================
+// SHOW LOGIN
+// ============================================================
+
+function showLogin() {
+
+    dashboard.style.display =
+        "none";
+
+    loginSection.style.display =
+        "block";
+
+}
+
+
+// ============================================================
+// LOGOUT
+// ============================================================
+
+logoutButton.addEventListener(
+    "click",
+    function() {
 
         localStorage.removeItem(
             "adminToken"
         );
 
-        loginBox.classList.remove(
-            "hidden"
-        );
+        showLogin();
 
-        applicationsBox.classList.add(
-            "hidden"
-        );
+        usernameInput.value = "";
 
-        logoutBtn.classList.add(
-            "hidden"
-        );
+        passwordInput.value = "";
 
     }
+);
 
 
-    // ==========================================
-    // SECURITY
-    // ==========================================
+// ============================================================
+// CHECK EXISTING LOGIN
+// ============================================================
 
-    function escapeHTML(value) {
-
-        const div =
-            document.createElement("div");
-
-        div.textContent =
-            value || "";
-
-        return div.innerHTML;
-
-    }
+const existingToken =
+    localStorage.getItem(
+        "adminToken"
+    );
 
 
-    // ==========================================
-    // AUTO LOGIN
-    // ==========================================
+if (existingToken) {
 
-    if (
-        localStorage.getItem(
-            "adminToken"
-        )
-    ) {
+    showDashboard();
 
-        showDashboard();
+} else {
 
-    }
+    showLogin();
+
+}
 
 </script>
 
