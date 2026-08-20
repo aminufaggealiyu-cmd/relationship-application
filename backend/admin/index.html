@@ -587,6 +587,16 @@ function displayApplications(
                 </p>
 
                 <p>
+                    <strong>Email:</strong>
+                    ${escapeHtml(application.email || "—")}
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    ${escapeHtml(application.phone || "—")}
+                </p>
+
+                <p>
                     <strong>Intention:</strong>
                     ${escapeHtml(
                         application.intention || "—"
