@@ -1,36 +1,106 @@
-const welcomeScreen = document.getElementById("welcomeScreen");
-const formScreen = document.getElementById("formScreen");
-const analyzingScreen = document.getElementById("analyzingScreen");
-const resultScreen = document.getElementById("resultScreen");
-const finalScreen = document.getElementById("finalScreen");
+// ============================================================
+// RELATIONSHIP APPLICATION
+// Frontend JavaScript
+// ============================================================
 
-const startBtn = document.getElementById("startBtn");
-const finishBtn = document.getElementById("finishBtn");
+// ------------------------------------------------------------
+// API
+// ------------------------------------------------------------
 
-const form = document.getElementById("relationshipForm");
+const API_URL =
+    "https://relationship-application-api.onrender.com/api/applications";
 
-const steps = document.querySelectorAll(".form-step");
 
-const currentStepDisplay = document.getElementById("currentStep");
-const progressBar = document.getElementById("progressBar");
+// ------------------------------------------------------------
+// SCREENS
+// ------------------------------------------------------------
 
-const scoreDisplay = document.getElementById("score");
-const analysisText = document.getElementById("analysisText");
-const resultMessage = document.getElementById("resultMessage");
+const welcomeScreen =
+    document.getElementById("welcomeScreen");
+
+const formScreen =
+    document.getElementById("formScreen");
+
+const analyzingScreen =
+    document.getElementById("analyzingScreen");
+
+const resultScreen =
+    document.getElementById("resultScreen");
+
+const finalScreen =
+    document.getElementById("finalScreen");
+
+
+// ------------------------------------------------------------
+// BUTTONS
+// ------------------------------------------------------------
+
+const startBtn =
+    document.getElementById("startBtn");
+
+const finishBtn =
+    document.getElementById("finishBtn");
+
+
+// ------------------------------------------------------------
+// FORM
+// ------------------------------------------------------------
+
+const form =
+    document.getElementById("relationshipForm");
+
+
+// ------------------------------------------------------------
+// FORM STEPS
+// ------------------------------------------------------------
+
+const steps =
+    document.querySelectorAll(".form-step");
+
+const currentStepDisplay =
+    document.getElementById("currentStep");
+
+const progressBar =
+    document.getElementById("progressBar");
 
 let currentStep = 1;
-const totalSteps = steps.length;
+
+const totalSteps =
+    steps.length;
 
 
-// --------------------------------------------------
+// ------------------------------------------------------------
+// RESULT ELEMENTS
+// ------------------------------------------------------------
+
+const scoreDisplay =
+    document.getElementById("score");
+
+const analysisText =
+    document.getElementById("analysisText");
+
+const resultMessage =
+    document.getElementById("resultMessage");
+
+
+// ============================================================
 // SCREEN CONTROL
-// --------------------------------------------------
+// ============================================================
 
 function showScreen(screen) {
 
-    document.querySelectorAll(".screen").forEach(section => {
-        section.classList.remove("active");
-    });
+    if (!screen) {
+        console.error("Screen element not found.");
+        return;
+    }
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(section => {
+
+            section.classList.remove("active");
+
+        });
 
     screen.classList.add("active");
 
@@ -41,30 +111,35 @@ function showScreen(screen) {
 }
 
 
-// --------------------------------------------------
+// ============================================================
 // START APPLICATION
-// --------------------------------------------------
+// ============================================================
 
-startBtn.addEventListener("click", () => {
+if (startBtn) {
 
-    currentStep = 1;
+    startBtn.addEventListener("click", () => {
 
-    updateStep();
+        currentStep = 1;
 
-    showScreen(formScreen);
+        updateStep();
 
-});
+        showScreen(formScreen);
+
+    });
+
+}
 
 
-// --------------------------------------------------
+// ============================================================
 // UPDATE FORM STEP
-// --------------------------------------------------
+// ============================================================
 
 function updateStep() {
 
     steps.forEach(step => {
 
-        const stepNumber = Number(step.dataset.step);
+        const stepNumber =
+            Number(step.dataset.step);
 
         step.classList.toggle(
             "active",
@@ -73,134 +148,150 @@ function updateStep() {
 
     });
 
-    currentStepDisplay.textContent = currentStep;
 
-    const progress = (currentStep / totalSteps) * 100;
+    if (currentStepDisplay) {
 
-    progressBar.style.width = `${progress}%`;
+        currentStepDisplay.textContent =
+            currentStep;
+
+    }
+
+
+    if (progressBar) {
+
+        const progress =
+            (currentStep / totalSteps) * 100;
+
+        progressBar.style.width =
+            `${progress}%`;
+
+    }
 
 }
 
 
-// --------------------------------------------------
+// ============================================================
 // NEXT BUTTONS
-// --------------------------------------------------
+// ============================================================
 
-document.querySelectorAll(".next-btn").forEach(button => {
+document
+    .querySelectorAll(".next-btn")
+    .forEach(button => {
 
-    button.addEventListener("click", () => {
+        button.addEventListener("click", () => {
 
-        const currentFormStep =
-            document.querySelector(
-                `.form-step[data-step="${currentStep}"]`
-            );
+            const currentFormStep =
+                document.querySelector(
+                    `.form-step[data-step="${currentStep}"]`
+                );
 
-        const inputs =
-            currentFormStep.querySelectorAll(
-                "input, textarea"
-            );
 
-        let valid = true;
-
-        for (const input of inputs) {
-
-            if (
-                input.hasAttribute("required") &&
-                !input.checkValidity()
-            ) {
-
-                input.reportValidity();
-
-                valid = false;
-
-                break;
+            if (!currentFormStep) {
+                return;
             }
-        }
 
-        if (!valid) {
-            return;
-        }
 
-        if (currentStep < totalSteps) {
+            const inputs =
+                currentFormStep.querySelectorAll(
+                    "input, textarea, select"
+                );
 
-            currentStep++;
 
-            updateStep();
+            for (const input of inputs) {
 
-        }
+                if (
+                    input.hasAttribute("required") &&
+                    !input.checkValidity()
+                ) {
+
+                    input.reportValidity();
+
+                    return;
+
+                }
+
+            }
+
+
+            if (currentStep < totalSteps) {
+
+                currentStep++;
+
+                updateStep();
+
+            }
+
+        });
 
     });
 
-});
 
-
-// --------------------------------------------------
+// ============================================================
 // BACK BUTTONS
-// --------------------------------------------------
+// ============================================================
 
-document.querySelectorAll(".prev-btn").forEach(button => {
+document
+    .querySelectorAll(".prev-btn")
+    .forEach(button => {
 
-    button.addEventListener("click", () => {
+        button.addEventListener("click", () => {
 
-        if (currentStep > 1) {
+            if (currentStep > 1) {
 
-            currentStep--;
+                currentStep--;
 
-            updateStep();
+                updateStep();
 
-        }
+            }
+
+        });
 
     });
 
-});
 
-
-// --------------------------------------------------
-// RANDOM COMPATIBILITY SCORE
-// 80 - 97
-// --------------------------------------------------
-
-function generateCompatibilityScore() {
-
-    return Math.floor(
-        Math.random() * 18
-    ) + 80;
-
-}
-
-
-// --------------------------------------------------
-// RANDOM RESULT MESSAGE
-// --------------------------------------------------
+// ============================================================
+// RESULT MESSAGE
+// ============================================================
 
 function generateResultMessage(score) {
 
     if (score >= 95) {
 
-        return "The system is extremely confident about this one.";
+        return (
+            "The system is extremely confident about this one."
+        );
 
     }
+
 
     if (score >= 90) {
 
-        return "Very promising. Someone should probably take this seriously.";
+        return (
+            "Very promising. Someone should probably take this seriously."
+        );
 
     }
+
 
     if (score >= 85) {
 
-        return "Strong compatibility detected. This deserves further investigation.";
+        return (
+            "Strong compatibility detected. This deserves further investigation."
+        );
 
     }
 
-    return "There is definitely something here. Further research is recommended.";
+
+    return (
+        "There is definitely something here. Further research is recommended."
+    );
 
 }
 
 
-// --------------------------------------------------
+// ============================================================
 // AI ANALYSIS ANIMATION
-// --------------------------------------------------
+// ============================================================
 
 function runAnalysis() {
 
@@ -216,207 +307,272 @@ function runAnalysis() {
 
         "Consulting the relationship algorithm...",
 
+        "Comparing emotional compatibility...",
+
+        "Running final calculations...",
+
         "Almost finished..."
 
     ];
 
+
     let index = 0;
 
-    analysisText.textContent = messages[0];
 
-    const interval = setInterval(() => {
+    if (analysisText) {
 
-        index++;
+        analysisText.textContent =
+            messages[0];
 
-        if (index < messages.length) {
+    }
 
-            analysisText.textContent = messages[index];
 
-        } else {
+    const interval =
+        setInterval(() => {
 
-            clearInterval(interval);
+            index++;
 
-        }
 
-    }, 750);
+            if (
+                index < messages.length
+            ) {
+
+                if (analysisText) {
+
+                    analysisText.textContent =
+                        messages[index];
+
+                }
+
+            } else {
+
+                clearInterval(interval);
+
+            }
+
+        }, 750);
 
 }
 
 
-// --------------------------------------------------
+// ============================================================
 // FORM SUBMISSION
-// --------------------------------------------------
+// ============================================================
 
-form.addEventListener("submit", async (event) => {
+if (form) {
 
-    event.preventDefault();
+    form.addEventListener(
+        "submit",
+        async event => {
 
-    const formData = new FormData(form);
-
-    const application = {
-
-        name: formData.get("name"),
-
-        nickname: formData.get("nickname"),
-
-        intention: formData.get("intention"),
-
-        jokes: formData.get("jokes"),
-
-        important: formData.get("important"),
-
-        message: formData.get("message")
-
-    };
+            event.preventDefault();
 
 
-    showScreen(analyzingScreen);
+            // ------------------------------------------------
+            // Collect form data
+            // ------------------------------------------------
 
-    runAnalysis();
-
-
-    try {
-
-        /*
-         * LOCAL TESTING:
-         */
-
-       const API_URL="https://relationship-application-api.onrender.com/api/applications";
+            const formData =
+                new FormData(form);
 
 
-        /*
-         * LATER, WHEN WE DEPLOY TO RENDER,
-         * WE WILL CHANGE THIS TO:
-         *
-         * https://your-app-name.onrender.com/api/applications
-         */
+            const application = {
+
+                name:
+                    formData.get("name"),
+
+                nickname:
+                    formData.get("nickname"),
+
+                intention:
+                    formData.get("intention"),
+
+                jokes:
+                    formData.get("jokes"),
+
+                important:
+                    formData.get("important"),
+
+                message:
+                    formData.get("message")
+
+            };
 
 
-        const response = await fetch(
-            API_URL,
-            {
-                method: "POST",
+            // ------------------------------------------------
+            // Show analysis screen
+            // ------------------------------------------------
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+            showScreen(
+                analyzingScreen
+            );
 
-                body: JSON.stringify(application)
+            runAnalysis();
+
+
+            // ------------------------------------------------
+            // Send application to Render
+            // ------------------------------------------------
+
+            try {
+
+                console.log(
+                    "Sending application to:",
+                    API_URL
+                );
+
+
+                const response =
+                    await fetch(
+                        API_URL,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    application
+                                )
+
+                        }
+                    );
+
+
+                // --------------------------------------------
+                // Convert response to JSON
+                // --------------------------------------------
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Backend response:",
+                    data
+                );
+
+
+                // --------------------------------------------
+                // Check for server errors
+                // --------------------------------------------
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Submission failed."
+                    );
+
+                }
+
+
+                // --------------------------------------------
+                // Display compatibility score
+                // --------------------------------------------
+
+                if (scoreDisplay) {
+
+                    scoreDisplay.textContent =
+                        data.compatibilityScore;
+
+                }
+
+
+                // --------------------------------------------
+                // Display result message
+                // --------------------------------------------
+
+                if (resultMessage) {
+
+                    resultMessage.textContent =
+                        generateResultMessage(
+                            data.compatibilityScore
+                        );
+
+                }
+
+
+                // --------------------------------------------
+                // Wait for analysis animation
+                // --------------------------------------------
+
+                setTimeout(() => {
+
+                    showScreen(
+                        resultScreen
+                    );
+
+                }, 5000);
+
+
+            } catch (error) {
+
+                console.error(
+                    "Application submission error:",
+                    error
+                );
+
+
+                alert(
+                    "Something went wrong while submitting your application. Please try again."
+                );
+
+
+                showScreen(
+                    formScreen
+                );
+
             }
-        );
+
+        }
+    );
+
+}
 
 
-        const data = await response.json();
+// ============================================================
+// FINISH BUTTON
+// ============================================================
 
+if (finishBtn) {
 
-        if (!response.ok) {
+    finishBtn.addEventListener(
+        "click",
+        () => {
 
-            throw new Error(
-                data.message ||
-                "Submission failed."
+            showScreen(
+                finalScreen
             );
 
         }
-
-
-        // Use the score generated by the backend.
-
-        scoreDisplay.textContent =
-            data.compatibilityScore;
-
-
-        resultMessage.textContent =
-            generateResultMessage(
-                data.compatibilityScore
-            );
-
-
-        setTimeout(() => {
-
-            showScreen(resultScreen);
-
-        }, 5000);
-
-
-    } catch (error) {
-
-        console.error(error);
-
-
-        alert(
-            "Something went wrong while submitting your application. Please try again."
-        );
-
-
-        showScreen(formScreen);
-
-    }
-
-});
-
-
-    // ----------------------------------------------
-    // SHOW ANALYSIS SCREEN
-    // ----------------------------------------------
-
-    showScreen(analyzingScreen);
-
-    runAnalysis();
-
-
-    // ----------------------------------------------
-    // GENERATE RANDOM SCORE
-    // ----------------------------------------------
-
-    const score = generateCompatibilityScore();
-
-    scoreDisplay.textContent = score;
-
-    resultMessage.textContent =
-        generateResultMessage(score);
-
-
-    // ----------------------------------------------
-    // SEND TO BACKEND
-    // ----------------------------------------------
-    // The backend URL will be added later.
-    //
-    // Example:
-    //
-    // await fetch("https://YOUR-RENDER-URL.onrender.com/api/applications", {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify(application)
-    // });
-
-
-    console.log(
-        "Application:",
-        application
     );
 
-
-    // ----------------------------------------------
-    // WAIT BEFORE SHOWING RESULT
-    // ----------------------------------------------
-
-    setTimeout(() => {
-
-        showScreen(resultScreen);
-
-    }, 5000);
-
-});
+}
 
 
-// --------------------------------------------------
-// FINISH
-// --------------------------------------------------
+// ============================================================
+// INITIALIZE
+// ============================================================
 
-finishBtn.addEventListener("click", () => {
+updateStep();
 
-    showScreen(finalScreen);
 
-});
+// ============================================================
+// DEBUG MESSAGE
+// ============================================================
+
+console.log(
+    "Relationship Application loaded successfully."
+);
+
+console.log(
+    "API:",
+    API_URL
+);
