@@ -281,8 +281,7 @@ form.addEventListener("submit", async (event) => {
          * LOCAL TESTING:
          */
 
-        const API_URL =
-            "http://localhost:5000/api/applications";
+       const API_URL="https://relationship-application-api.onrender.com"/api/applications";
 
 
         /*
