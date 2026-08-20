@@ -58,6 +58,8 @@ router.post("/", async (req, res) => {
         const {
             name,
             nickname,
+            email,
+            phone,
             intention,
             jokes,
             important,
