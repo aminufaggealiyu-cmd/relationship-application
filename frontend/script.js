@@ -383,7 +383,10 @@ if (form) {
 
                 nickname:
                     formData.get("nickname"),
-
+                email: 
+                    formData.get("email"),
+                phone: 
+                    formData.get("phone"),
                 intention:
                     formData.get("intention"),
 
