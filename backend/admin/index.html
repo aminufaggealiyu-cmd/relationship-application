@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Relationship Applications</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f5f8;
+            color: #18181b;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.06);
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #71717a;
+        }
+
+        .login-box,
+        .applications-box {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.06);
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin: 8px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 14px 18px;
+            background: #8b5cf6;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #6d28d9;
+        }
+
+        .logout {
+            background: #ef4444;
+            float: right;
+        }
+
+        .logout:hover {
+            background: #dc2626;
+        }
+
+        .application {
+            border: 1px solid #e4e4e7;
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .application h3 {
+            margin-bottom: 5px;
+        }
+
+        .date {
+            color: #a1a1aa;
+            font-size: 12px;
+            margin-bottom: 18px;
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        .field strong {
+            display: block;
+            font-size: 12px;
+            color: #71717a;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .score {
+            display: inline-block;
+            padding: 7px 12px;
+            background: #f3e8ff;
+            color: #7c3aed;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error {
+            color: #dc2626;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #71717a;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .header,
+            .login-box,
+            .applications-box {
+                padding: 18px;
+            }
+
+            .logout {
+                float: none;
+                margin-top: 15px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <button
+            class="logout hidden"
+            id="logoutBtn"
+        >
+            Logout
+        </button>
+
+        <h1>Relationship Applications</h1>
+
+        <p class="subtitle">
+            Private application dashboard
+        </p>
+
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <div
+        class="login-box"
+        id="loginBox"
+    >
+
+        <h2>Admin Login</h2>
+
+        <br>
+
+        <label>Username</label>
+
+        <input
+            type="text"
+            id="username"
+            placeholder="Admin username"
+        >
+
+        <label>Password</label>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Admin password"
+        >
+
+        <button id="loginBtn">
+            Login
+        </button>
+
+        <p
+            class="error"
+            id="loginError"
+        ></p>
+
+    </div>
+
+
+    <!-- APPLICATIONS -->
+
+    <div
+        class="applications-box hidden"
+        id="applicationsBox"
+    >
+
+        <h2>
+            Applications
+            (<span id="applicationCount">0</span>)
+        </h2>
+
+        <div id="applicationsList"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /*
+     * Change this after deploying the backend.
+     *
+     * Example:
+     *
+     * https://relationship-application-api.onrender.com
+     */
+
+    const API_URL="https://relationship-application-api.onrender.com";";
+
+
+    const loginBox =
+        document.getElementById("loginBox");
+
+    const applicationsBox =
+        document.getElementById("applicationsBox");
+
+    const loginBtn =
+        document.getElementById("loginBtn");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+    const loginError =
+        document.getElementById("loginError");
+
+    const applicationsList =
+        document.getElementById("applicationsList");
+
+    const applicationCount =
+        document.getElementById("applicationCount");
+
+
+    // ==========================================
+    // LOGIN
+    // ==========================================
+
+    loginBtn.addEventListener("click", async () => {
+
+        const username =
+            document.getElementById("username").value;
+
+        const password =
+            document.getElementById("password").value;
+
+
+        loginError.textContent = "";
+
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/api/admin/login`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        username,
+                        password
+                    })
+                }
+            );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Login failed."
+                );
+
+            }
+
+
+            localStorage.setItem(
+                "adminToken",
+                data.token
+            );
+
+
+            showDashboard();
+
+
+        } catch (error) {
+
+            loginError.textContent =
+                error.message;
+
+        }
+
+    });
+
+
+    // ==========================================
+    // SHOW DASHBOARD
+    // ==========================================
+
+    function showDashboard() {
+
+        loginBox.classList.add("hidden");
+
+        applicationsBox.classList.remove(
+            "hidden"
+        );
+
+        logoutBtn.classList.remove(
+            "hidden"
+        );
+
+        loadApplications();
+
+    }
+
+
+    // ==========================================
+    // LOAD APPLICATIONS
+    // ==========================================
+
+    async function loadApplications() {
+
+        const token =
+            localStorage.getItem(
+                "adminToken"
+            );
+
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/api/applications`,
+                {
+                    headers: {
+                        Authorization:
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+            if (!response.ok) {
+
+                if (response.status === 401) {
+
+                    logout();
+
+                    return;
+
+                }
+
+                throw new Error(
+                    "Could not load applications."
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            applicationCount.textContent =
+                data.count;
+
+
+            renderApplications(
+                data.applications
+            );
+
+
+        } catch (error) {
+
+            applicationsList.innerHTML = `
+                <p class="error">
+                    ${error.message}
+                </p>
+            `;
+
+        }
+
+    }
+
+
+    // ==========================================
+    // DISPLAY APPLICATIONS
+    // ==========================================
+
+    function renderApplications(
+        applications
+    ) {
+
+        if (!applications.length) {
+
+            applicationsList.innerHTML = `
+                <div class="empty">
+                    No applications yet.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        applicationsList.innerHTML =
+            applications.map(application => {
+
+                const date =
+                    new Date(
+                        application.createdAt
+                    ).toLocaleString();
+
+
+                return `
+
+                    <div class="application">
+
+                        <h3>
+                            ${escapeHTML(
+                                application.name
+                            )}
+                        </h3>
+
+                        <p class="date">
+                            ${date}
+                        </p>
+
+                        <div class="field">
+
+                            <strong>
+                                Nickname
+                            </strong>
+
+                            ${escapeHTML(
+                                application.nickname ||
+                                "Not provided"
+                            )}
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <strong>
+                                Looking for
+                            </strong>
+
+                            ${escapeHTML(
+                                application.intention
+                            )}
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <strong>
+                                Bad joke response
+                            </strong>
+
+                            ${escapeHTML(
+                                application.jokes
+                            )}
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <strong>
+                                Relationship priority
+                            </strong>
+
+                            ${escapeHTML(
+                                application.important
+                            )}
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <strong>
+                                Message
+                            </strong>
+
+                            ${escapeHTML(
+                                application.message
+                            )}
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <strong>
+                                Compatibility
+                            </strong>
+
+                            <span class="score">
+                                ${application.compatibilityScore}%
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }).join("");
+
+    }
+
+
+    // ==========================================
+    // LOGOUT
+    // ==========================================
+
+    logoutBtn.addEventListener(
+        "click",
+        logout
+    );
+
+
+    function logout() {
+
+        localStorage.removeItem(
+            "adminToken"
+        );
+
+        loginBox.classList.remove(
+            "hidden"
+        );
+
+        applicationsBox.classList.add(
+            "hidden"
+        );
+
+        logoutBtn.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    // ==========================================
+    // SECURITY
+    // ==========================================
+
+    function escapeHTML(value) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent =
+            value || "";
+
+        return div.innerHTML;
+
+    }
+
+
+    // ==========================================
+    // AUTO LOGIN
+    // ==========================================
+
+    if (
+        localStorage.getItem(
+            "adminToken"
+        )
+    ) {
+
+        showDashboard();
+
+    }
+
+</script>
+
+</body>
+</html>
